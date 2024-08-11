@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from url_shortener.domain.entities import URL
-from url_shortener.domain.value_objects import OriginalURL
+from url_shortener.domain.value_objects import ShortKey, OriginalURL
 from url_shortener.application.interfaces import URLRepository, ShortenerService
 
 class URLService:
@@ -23,6 +23,9 @@ class URLService:
         return saved_url
 
     def get_original_url(self, short_key: str) -> Optional[str]:
-        ...
+        url: URL = self.repository.get_by_short_key(ShortKey(value=short_key))
+        if url and not url.is_expired():
+           
+            return str(url.original_url)
 
         return None

@@ -17,6 +17,6 @@ class URLRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_short_key(self, short_key: ShortKey) -> OriginalURL:
-        """short_key로 OriginalURL 검색"""
+    def get_by_short_key(self, short_key: ShortKey) -> URL:
+        """short_key로 URL 검색"""
         pass

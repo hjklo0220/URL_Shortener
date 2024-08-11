@@ -17,5 +17,5 @@ class Base62Shortener(ShortenerService):
 
         return ShortKey(value=encoded[:self.length])
 
-def get_shortener(length: int = 7) -> ShortenerService:
-    return Base62Shortener(length)
+def get_shortener() -> ShortenerService:
+    return Base62Shortener()

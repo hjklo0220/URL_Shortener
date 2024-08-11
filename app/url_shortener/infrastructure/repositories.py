@@ -27,7 +27,19 @@ class SQLAlchemyURLRepository(URLRepository):
             created_at=db_url.created_at,
             expires_at=db_url.expires_at,
         )
+    
+    def get_by_short_key(self, short_key: ShortKey) -> URL | None:
+        db_url = self.session.query(URLModel).filter(URLModel.short_key == str(short_key)).first()
+        return self._to_domain(db_url) if db_url else None
 
+    def _to_domain(self, db_url: URLModel) -> URL:
+        return URL(
+            id=db_url.id,
+            original_url=OriginalURL(value=db_url.original_url),
+            short_key=ShortKey(value=db_url.short_key),
+            created_at=db_url.created_at,
+            expires_at=db_url.expires_at,
+        )
 
 def get_repository(session: Session) -> SQLAlchemyURLRepository:
     return SQLAlchemyURLRepository(session)
