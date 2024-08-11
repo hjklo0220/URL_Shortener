@@ -1,6 +1,7 @@
-from fastapi import Depends, FastAPI
+from fastapi import BackgroundTasks, Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from url_shortener.application.services import URLService
 from url_shortener.presentation.api import router
 from config import settings
 from url_shortener.infrastructure.dependencies import get_url_service
@@ -18,7 +19,12 @@ app.add_middleware(
 
 app.include_router(router, prefix=settings.API_PREFIX, dependencies=[Depends(get_url_service)])
 
+def delete_expired_urls(url_service: URLService):
+    deleted_count = url_service.delete_expired_urls()
+    print(f"Deleted {deleted_count} expired URLs")
 
 @app.get("/")
-def health_check():
-    return {"message": "ok"}
+async def root(background_tasks: BackgroundTasks, url_service: URLService = Depends(get_url_service)):
+    background_tasks.add_task(delete_expired_urls, url_service)
+    return {"message": "Welcome to URL Shortener API"}
+

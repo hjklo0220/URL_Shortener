@@ -1,3 +1,4 @@
+import datetime
 from abc import ABC, abstractmethod
 
 from url_shortener.domain.entities import URL
@@ -24,4 +25,9 @@ class URLRepository(ABC):
     @abstractmethod
     def update(self, url: URL) -> URL:
         """조회수 업데이트"""
+        pass
+
+    @abstractmethod
+    def delete_expired(self, current_time: datetime) -> int:
+        """만료된 URL들 삭제"""
         pass

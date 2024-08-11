@@ -34,3 +34,6 @@ class URLService:
     
     def get_url_stats(self, short_key: str) -> Optional[URL]:
         return self.repository.get_by_short_key(ShortKey(value=short_key))
+    
+    def delete_expired_urls(self) -> int:
+        return self.repository.delete_expired(datetime.now())

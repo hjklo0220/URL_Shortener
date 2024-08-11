@@ -1,3 +1,6 @@
+import datetime
+
+from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from url_shortener.domain.value_objects import OriginalURL, ShortKey
@@ -41,6 +44,13 @@ class SQLAlchemyURLRepository(URLRepository):
     def get_by_short_key(self, short_key: ShortKey) -> URL | None:
         db_url = self.session.query(URLModel).filter(URLModel.short_key == str(short_key)).first()
         return self._to_domain(db_url) if db_url else None
+    
+    def delete_expired(self, current_time: datetime) -> int:
+        query = delete(URLModel).where(URLModel.expires_at <= current_time)
+        result = self.session.execute(query)
+        self.session.commit()
+        # 지워진 행 갯수 return
+        return result.rowcount
 
     def _to_domain(self, db_url: URLModel) -> URL:
         return URL(
