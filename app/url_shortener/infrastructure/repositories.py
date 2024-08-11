@@ -16,6 +16,7 @@ class SQLAlchemyURLRepository(URLRepository):
             short_key=str(url.short_key),
             created_at=url.created_at,
             expires_at=url.expires_at,
+            views=url.views,
         )
         self.session.add(db_url)
         self.session.commit()
@@ -26,7 +27,16 @@ class SQLAlchemyURLRepository(URLRepository):
             short_key=db_url.short_key,
             created_at=db_url.created_at,
             expires_at=db_url.expires_at,
+            views=db_url.views,
         )
+    
+    def update(self, url: URL) -> URL:
+        db_url = self.session.query(URLModel).filter(URLModel.id == url.id).first()
+        if db_url:
+            db_url.views = url.views
+            self.session.commit()
+            self.session.refresh(db_url)
+        return self._to_domain(db_url)
     
     def get_by_short_key(self, short_key: ShortKey) -> URL | None:
         db_url = self.session.query(URLModel).filter(URLModel.short_key == str(short_key)).first()
@@ -39,6 +49,7 @@ class SQLAlchemyURLRepository(URLRepository):
             short_key=ShortKey(value=db_url.short_key),
             created_at=db_url.created_at,
             expires_at=db_url.expires_at,
+            views=db_url.views,
         )
 
 def get_repository(session: Session) -> SQLAlchemyURLRepository:

@@ -19,6 +19,7 @@ class URLModel(Base):
     short_key = Column(String, unique=True, index=True)
     created_at = Column(DateTime)
     expires_at = Column(DateTime, nullable=True)
+    views = Column(Integer, default=0)
 
 # db 세션 가져오기
 def get_db():

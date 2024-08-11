@@ -18,6 +18,7 @@ class URLService:
             short_key=short_key,
             created_at=datetime.now(),
             expires_at=expires_at,
+            views=0,
         )
         saved_url = self.repository.save(url)
         return saved_url
@@ -25,7 +26,11 @@ class URLService:
     def get_original_url(self, short_key: str) -> Optional[str]:
         url: URL = self.repository.get_by_short_key(ShortKey(value=short_key))
         if url and not url.is_expired():
-           
+            url.increment_views()
+            self.repository.update(url)
             return str(url.original_url)
 
         return None
+    
+    def get_url_stats(self, short_key: str) -> Optional[URL]:
+        return self.repository.get_by_short_key(ShortKey(value=short_key))

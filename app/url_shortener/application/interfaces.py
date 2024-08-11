@@ -20,3 +20,8 @@ class URLRepository(ABC):
     def get_by_short_key(self, short_key: ShortKey) -> URL:
         """short_key로 URL 검색"""
         pass
+
+    @abstractmethod
+    def update(self, url: URL) -> URL:
+        """조회수 업데이트"""
+        pass
