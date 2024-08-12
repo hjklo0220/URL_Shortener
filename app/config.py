@@ -6,7 +6,7 @@ from pydantic import PostgresDsn
 class Settings(BaseSettings):
 
     # db settings
-    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_SERVER: str = "postgres"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "password"
     POSTGRES_DB: str = "url_shortener"
