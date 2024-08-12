@@ -24,14 +24,7 @@ class SQLAlchemyURLRepository(URLRepository):
         self.session.add(db_url)
         self.session.commit()
         self.session.refresh(db_url)
-        return URL(
-            id=db_url.id,
-            original_url=db_url.original_url,
-            short_key=db_url.short_key,
-            created_at=db_url.created_at,
-            expires_at=db_url.expires_at,
-            views=db_url.views,
-        )
+        return self._to_domain(db_url)
     
     def update(self, url: URL) -> URL:
         db_url = self.session.query(URLModel).filter(URLModel.id == url.id).first()
