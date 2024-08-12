@@ -55,5 +55,3 @@ class SQLAlchemyURLRepository(URLRepository):
             views=db_url.views,
         )
 
-def get_repository(session: Session) -> SQLAlchemyURLRepository:
-    return SQLAlchemyURLRepository(session)
