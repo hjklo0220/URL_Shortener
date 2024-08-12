@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 import unittest
 from unittest.mock import Mock
 
-from url_shortener.application.interfaces import URLRepository
 from url_shortener.domain.entities import URL
 from url_shortener.domain.value_objects import OriginalURL, ShortKey
 from url_shortener.application.services import URLService
