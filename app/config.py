@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     # URL settings
     BASE_URL: str = "http://localhost:8000"
 
+    # Redis settings
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+
     class Config:
         env_file = ".env"
         case_sensitive = True
