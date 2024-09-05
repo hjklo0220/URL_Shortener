@@ -2,14 +2,8 @@ import datetime
 from abc import ABC, abstractmethod
 
 from url_shortener.domain.entities import URL
-from url_shortener.domain.value_objects import ShortKey, OriginalURL
+from url_shortener.domain.value_objects import ShortKey
 
-
-class ShortenerService(ABC):
-    @abstractmethod
-    def generate_short_key(self) -> ShortKey:
-        """short_key 생성"""
-        pass
 
 class URLRepository(ABC):
     @abstractmethod
